@@ -1,0 +1,42 @@
+﻿@model BaseApplication.Entities.Dtos.ArticleAddDto
+@{
+    ViewData["Title"] = "Articles";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-8 mt-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Add New Article</h5>
+                <form asp-controller="Article" asp-action="Add" method="post" enctype="multipart/form-data">
+                    <div asp-validation-summary="ModelOnly"></div>
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label" asp-for="CategoryId"></label>
+                        <select asp-for="CategoryId" class="form-control" asp-items="@ViewBag.categoryList">
+                            <option value="">Select Category</option>
+                        </select>
+                        <span class="text-danger" asp-validation-for="CategoryId"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Title" class="form-label"></label>
+                        <input asp-for="Title" class="form-control" />
+                        <span class="text-danger" asp-validation-for="Title"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Content" class="form-label"></label>
+                        <input asp-for="Content" class="form-control" />
+                        <span class="text-danger" asp-validation-for="Content"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Date"  class="form-label"></label>
+                        <input type="date" asp-for="Date" class="form-control" />
+                        <span class="text-danger" asp-validation-for="Date"></span>
+                    </div>
+                    <a asp-controller="Home" asp-action="Index" class="btn btn-danger"><span class="fas fa-times"></span> Cancel </a>
+                    <button type="submit" class="btn btn-primary" id="btnSave"><span class="fas fa-save"></span> Save </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

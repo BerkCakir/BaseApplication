@@ -1,4 +1,5 @@
 using BaseApplication.Entities.Dtos;
+using BaseApplication.Entities.Validators;
 using BaseApplication.Services.AutoMapper.Profiles;
 using BaseApplication.Services.Extensions;
 using FluentValidation.AspNetCore;
@@ -28,7 +29,8 @@ namespace BaseApplication.Web
         {
             services.AddControllersWithViews()
                 .AddRazorRuntimeCompilation() // allows changing views on runtime
-                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CategoryAddDto>());
+                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CategoryAddDtoValidator>());
+
             services.AddAutoMapper(typeof(CategoryProfile), typeof(ArticleProfile));
             services.LoadMyServices();
         }

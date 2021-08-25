@@ -1,0 +1,73 @@
+﻿@model IList<BaseApplication.Entities.Concrete.Article>
+@{
+    ViewData["Title"] = "Articles";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@if (Model != null)
+{
+    <div class="card mb-4 mt-4">
+        <div class="card-header">
+            <i class="fas fa-table mr-1"></i>
+            Articles
+        </div>
+        <div class="card-body">
+            <a asp-controller="Article" asp-action="Add" class="btn btn-primary mb-3">New Article</a>
+            <div class="table-responsive">
+                <table class="table table-bordered" id="articlesTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Title</th>
+                            <th>Content</th>
+                            <th>Date</th>
+                            <th>CategoryName</th>
+                            <th>Created Date</th>
+                            <th>Modified Date</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>ID</th>
+                            <th>Title</th>
+                            <th>Content</th>
+                            <th>Date</th>
+                            <th>CategoryName</th>
+                            <th>Created Date</th>
+                            <th>Modified Date</th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        @foreach (var article in Model)
+                        {
+                            <tr>
+                                <td>@article.Id</td>
+                                <td>@article.Title</td>
+                                <td>............................</td>
+                                <td>@article.Date.ToShortDateString()</td>
+                                <td>@article.Category.Name</td>
+                                <td>@article.CreatedDate.ToShortDateString()</td>
+                                <td>@article.ModifiedDate.ToShortDateString()</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+}
+@if (TempData["errorMessage"] != null)
+{
+    <div class="alert alert-danger mt-3">
+        @TempData["errorMessage"] <br />
+        Return to home <a class="alert-link" asp-controller="Home" asp-action="Index">page</a>
+    </div>
+}
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            $('#articlesTable').DataTable();
+        });
+    </script>
+}

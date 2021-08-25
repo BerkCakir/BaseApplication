@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BaseApplication.Entities.Validators
 {
-    class ArticleUpdateDtoValidator : AbstractValidator<ArticleUpdateDto>
+    public class ArticleUpdateDtoValidator : AbstractValidator<ArticleUpdateDto>
     {
         public ArticleUpdateDtoValidator()
         {

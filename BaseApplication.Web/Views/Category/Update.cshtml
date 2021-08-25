@@ -1,0 +1,39 @@
+﻿@{
+    ViewData["Title"] = "Update";
+}
+@model BaseApplication.Entities.Dtos.CategoryUpdateDto
+<div class="row">
+    <div class="col-md-8 mt-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Add Category</h5>
+                <form asp-controller="Category" asp-action="Update" method="post" enctype="multipart/form-data">
+                    <div asp-validation-summary="ModelOnly"></div>
+                    <div class="mb-3">
+                        <label asp-for="Name" class="form-label"></label>
+                        <input asp-for="Name" class="form-control" />
+                        <span class="text-danger" asp-validation-for="Name"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Description" class="form-label"></label>
+                        <input asp-for="Description" class="form-control" />
+                        <span class="text-danger" asp-validation-for="Description"></span>
+                    </div>
+                    <div class="form-group form-check">
+                        <input type="checkbox" class="form-check-input" asp-for="IsActive" />
+                        <label asp-for="IsActive" class="form-check-label"></label>
+                    </div>
+                    <a asp-controller="Category" asp-action="Index" class="btn btn-danger"><span class="fas fa-times"></span> Cancel </a>
+                    <button type="submit" class="btn btn-primary" id="btnSave"><span class="fas fa-save"></span> Update </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@if (TempData["errorMessage"] != null)
+{
+    <div class="alert alert-danger mt-3">
+        @TempData["errorMessage"] <br />
+        Return to home <a class="alert-link" asp-controller="Home" asp-action="Index">page</a>
+    </div>
+}
