@@ -1,12 +1,12 @@
 # BaseApplication
-A layered MVC application with EntityFramework and could be a starting point for developing simple and similar applications
+A layered MVC application(C#) with EntityFramework and could be a starting point for developing simple and similar applications
 
 
 ## What is Inside
 
 - Extendible architecture with frequently used layers
 - Implementation of Generic Repository Pattern
-- Fluent Api for creating tables and inserting initial values
+- Fluent Api for creating DB, tables and inserting initial values
 - Implementation of Fluent Validation Library 
 - Mirroring server side validations to client side with jquery, jquery-validation and jquery-validation-unobtrusive client side libraries
 - Common result structure
