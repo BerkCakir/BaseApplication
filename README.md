@@ -8,7 +8,7 @@ A layered MVC application with EntityFramework and can be a starting point for d
 - Implementation of Generic Repository Pattern
 - Fluent Api for creating tables and inserting initial values
 - Implementation of Fluent Validation Library 
-- Mirroring server side validation to client side with jquery, jquery-validation and jquery-validation-unobtrusive client side libraries
+- Mirroring server side validations to client side with jquery, jquery-validation and jquery-validation-unobtrusive client side libraries
 - Common result structure
 - Error message management from a single point
 - Automapper
