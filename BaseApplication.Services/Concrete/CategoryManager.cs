@@ -3,6 +3,7 @@ using BaseApplication.Data.Abstract;
 using BaseApplication.Entities.Concrete;
 using BaseApplication.Entities.Dtos;
 using BaseApplication.Services.Abstract;
+using BaseApplication.Shared.Utilities.Messages;
 using BaseApplication.Shared.Utilities.Results.Abstract;
 using BaseApplication.Shared.Utilities.Results.ComplexTypes;
 using BaseApplication.Shared.Utilities.Results.Concrete;
@@ -29,15 +30,16 @@ namespace BaseApplication.Services.Concrete
             var category = _mapper.Map<Category>(categoryAddDto);
             await _unitOfWork.Categories.AddAsync(category);
             await _unitOfWork.SaveAsync();
-            return new Result(ResultStatus.Success, "Successfully added");
+            return new Result(ResultStatus.Success, Messages.Category.Add());
         }
 
         public async Task<IResult> Update(CategoryUpdateDto categoryUpdateDto)
         {
-            var category = _mapper.Map<Category>(categoryUpdateDto);
+            var oldCategory = await _unitOfWork.Categories.GetAsync(c => c.Id == categoryUpdateDto.Id);
+            var category = _mapper.Map<CategoryUpdateDto, Category>(categoryUpdateDto, oldCategory);
             await _unitOfWork.Categories.UpdateAsync(category);
             await _unitOfWork.SaveAsync();
-            return new Result(ResultStatus.Success, "Category was successfully added");
+            return new Result(ResultStatus.Success, Messages.Category.Update());
             //var categoryFound = await _unitOfWork.Categories.GetAsync(c => c.Id == categoryUpdateDto.Id); 
             //if (categoryFound != null)
             //{
@@ -56,9 +58,9 @@ namespace BaseApplication.Services.Concrete
                 category.ModifiedDate = DateTime.Now;
                 await _unitOfWork.Categories.UpdateAsync(category);
                 await _unitOfWork.SaveAsync();
-                return new Result(ResultStatus.Success, "Successfully deleted");
+                return new Result(ResultStatus.Success, Messages.Category.Delete());
             }
-            return new Result(ResultStatus.Error, "Category not found");
+            return new Result(ResultStatus.Error, Messages.Category.NotFound(true));
         }
 
         public async Task<IResult> HardDelete(int categoryId)
@@ -68,9 +70,9 @@ namespace BaseApplication.Services.Concrete
             {
                 await _unitOfWork.Categories.DeleteAsync(category);
                 await _unitOfWork.SaveAsync();
-                return new Result(ResultStatus.Success, "Successfully deleted from database");
+                return new Result(ResultStatus.Success, Messages.Category.HardDelete());
             }
-            return new Result(ResultStatus.Error, "Category not found");
+            return new Result(ResultStatus.Error, Messages.Category.NotFound());
         }
 
         public async Task<IDataResult<Category>> Get(int categoryId)
@@ -80,7 +82,7 @@ namespace BaseApplication.Services.Concrete
             {
                 return new DataResult<Category>(ResultStatus.Success, category);
             }
-            return new DataResult<Category>(ResultStatus.Error, "Category not found", null);
+            return new DataResult<Category>(ResultStatus.Error, Messages.Category.NotFound(), null);
         }
 
         public async Task<IDataResult<IList<Category>>> GetAll()
@@ -91,7 +93,7 @@ namespace BaseApplication.Services.Concrete
                 return new DataResult<IList<Category>>(ResultStatus.Success, categories);
             }
 
-            return new DataResult<IList<Category>>(ResultStatus.Error, "No category found" ,null);
+            return new DataResult<IList<Category>>(ResultStatus.Error, Messages.Category.NotFound(true) ,null);
         }
         public async Task<IDataResult<IList<Category>>> GetAllByNonDeleted()
         {
@@ -101,7 +103,7 @@ namespace BaseApplication.Services.Concrete
                 return new DataResult<IList<Category>>(ResultStatus.Success, categories);
             }
 
-            return new DataResult<IList<Category>>(ResultStatus.Error, "No category found", null);
+            return new DataResult<IList<Category>>(ResultStatus.Error, Messages.Category.NotFound(true), null);
         }
 
     }

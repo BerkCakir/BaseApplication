@@ -92,5 +92,29 @@ namespace BaseApplication.Web.Controllers
             //}
             return RedirectToAction(nameof(Index));
         }
+
+        [HttpGet]
+        public IActionResult AddList()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> AddList(CategoryAddDto categoryAddDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+            var result = await _categoryService.Add(categoryAddDto);
+            //if (result.ResultStatus != ResultStatus.Success)
+            //{
+            //    TempData["errorMessage"] = result.Message;
+            //    return View();
+            //}
+            ModelState.Clear();
+            return View();
+        }
+
+
     }
 }

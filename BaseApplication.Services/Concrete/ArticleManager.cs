@@ -3,6 +3,7 @@ using BaseApplication.Data.Abstract;
 using BaseApplication.Entities.Concrete;
 using BaseApplication.Entities.Dtos;
 using BaseApplication.Services.Abstract;
+using BaseApplication.Shared.Utilities.Messages;
 using BaseApplication.Shared.Utilities.Results.Abstract;
 using BaseApplication.Shared.Utilities.Results.ComplexTypes;
 using BaseApplication.Shared.Utilities.Results.Concrete;
@@ -31,7 +32,7 @@ namespace BaseApplication.Services.Concrete
             {
                 return new DataResult<Article>(ResultStatus.Success, article);
             }
-            return new DataResult<Article>(ResultStatus.Error, "Article not found", null);
+            return new DataResult<Article>(ResultStatus.Error, Messages.Article.NotFound(), null);
         }
 
         public async Task<IDataResult<IList<Article>>> GetAll()
@@ -41,7 +42,7 @@ namespace BaseApplication.Services.Concrete
             {
                 return new DataResult<IList<Article>>(ResultStatus.Success, articles);
             }
-            return new DataResult<IList<Article>>(ResultStatus.Error, "Article not found", null);
+            return new DataResult<IList<Article>>(ResultStatus.Error, Messages.Article.NotFound(true), null);
         }
 
         public async Task<IDataResult<IList<Article>>> GetAllByCategory(int categoryId)
@@ -54,9 +55,9 @@ namespace BaseApplication.Services.Concrete
                 {
                     return new DataResult<IList<Article>>(ResultStatus.Success, articles);
                 }
-                return new DataResult<IList<Article>>(ResultStatus.Error, "Article not found", null);
+                return new DataResult<IList<Article>>(ResultStatus.Error, Messages.Article.NotFound(true), null);
             }
-            return new DataResult<IList<Article>>(ResultStatus.Error, "Category not found", null);
+            return new DataResult<IList<Article>>(ResultStatus.Error, Messages.Category.NotFound(), null);
         }
 
         public async Task<IDataResult<IList<Article>>> GetAllByNonDeleted()
@@ -66,14 +67,14 @@ namespace BaseApplication.Services.Concrete
             {
                 return new DataResult<IList<Article>>(ResultStatus.Success, articles);
             }
-            return new DataResult<IList<Article>>(ResultStatus.Error, "Article not found", null);
+            return new DataResult<IList<Article>>(ResultStatus.Error, Messages.Article.NotFound(true), null);
         }
         public async Task<IResult> Add(ArticleAddDto articleAddDto)
         {
             var article = _mapper.Map<Article>(articleAddDto);
             await _unitOfWork.Articles.AddAsync(article);
             await _unitOfWork.SaveAsync();
-            return new Result(ResultStatus.Success, $"Article named:{articleAddDto.Title} was successfully added");
+            return new Result(ResultStatus.Success, Messages.Article.Add(articleAddDto.Title));
         }
 
         public async Task<IResult> Update(ArticleUpdateDto articleUpdateDto)
@@ -81,7 +82,7 @@ namespace BaseApplication.Services.Concrete
             var article = _mapper.Map<Article>(articleUpdateDto);
             await _unitOfWork.Articles.UpdateAsync(article);
             await _unitOfWork.SaveAsync();
-            return new Result(ResultStatus.Success, $"Article named:{articleUpdateDto.Title} was successfully updated");
+            return new Result(ResultStatus.Success, Messages.Article.Update(articleUpdateDto.Title));
         }
         public async Task<IResult> Delete(int articleId)
         {
@@ -93,9 +94,9 @@ namespace BaseApplication.Services.Concrete
                 article.IsDeleted = true;
                 await _unitOfWork.Articles.UpdateAsync(article);
                 await _unitOfWork.SaveAsync();
-                return new Result(ResultStatus.Success, $"Article named:{article.Title} was successfully deleted");
+                return new Result(ResultStatus.Success, Messages.Article.Delete(article.Title));
             }
-            return new Result(ResultStatus.Error, "Article not found");
+            return new Result(ResultStatus.Error, Messages.Article.NotFound());
         }
 
         public async Task<IResult> HardDelete(int articleId)
@@ -106,9 +107,9 @@ namespace BaseApplication.Services.Concrete
                 var article = await _unitOfWork.Articles.GetAsync(a => a.Id == articleId);
                 await _unitOfWork.Articles.DeleteAsync(article);
                 await _unitOfWork.SaveAsync();
-                return new Result(ResultStatus.Success, $"Article named:{article.Title} was successfully deleted from database");
+                return new Result(ResultStatus.Success, Messages.Article.HardDelete(article.Title));
             }
-            return new Result(ResultStatus.Error, "Article not found");
+            return new Result(ResultStatus.Error, Messages.Article.NotFound());
         }
     }
 }

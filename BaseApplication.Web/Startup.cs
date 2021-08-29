@@ -32,7 +32,7 @@ namespace BaseApplication.Web
                 .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CategoryAddDtoValidator>());
 
             services.AddAutoMapper(typeof(CategoryProfile), typeof(ArticleProfile));
-            services.LoadMyServices();
+            services.LoadMyServices(connectionString: Configuration.GetConnectionString("LocalDB"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

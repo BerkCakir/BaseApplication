@@ -13,7 +13,7 @@ namespace BaseApplication.Shared.Data.Concrete.EntityFramework
     public class EfEntityRepositoryBase<TEntity> : IEntityRepository<TEntity>
         where TEntity:class,IEntity,new() 
     {
-        private readonly DbContext _dbContext;
+        protected readonly DbContext _dbContext;
 
         public EfEntityRepositoryBase(DbContext dbContext)
         {
@@ -60,10 +60,7 @@ namespace BaseApplication.Shared.Data.Concrete.EntityFramework
         public async Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> predicate, params Expression<Func<TEntity, object>>[] includeProperties)
         {
             IQueryable<TEntity> query = _dbContext.Set<TEntity>();
-            if (predicate != null)
-            {
-                query = query.Where(predicate);
-            }
+            query = query.Where(predicate);
             if (includeProperties.Any())
             {
                 foreach (var includeProperty in includeProperties)

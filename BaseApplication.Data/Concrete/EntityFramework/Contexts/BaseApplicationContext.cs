@@ -14,10 +14,14 @@ namespace BaseApplication.Data.Concrete.EntityFramework.Contexts
         public DbSet<Category> Categories{ get; set; }
         public DbSet<Category> Articles{ get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public BaseApplicationContext(DbContextOptions<BaseApplicationContext> options) : base(options)
         {
-            optionsBuilder.UseSqlServer(@"Data Source=(localdb)\mssqllocaldb;Initial Catalog=BasicApplication;Integrated Security=True");
+
         }
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    optionsBuilder.UseSqlServer(@"Data Source=(localdb)\mssqllocaldb;Initial Catalog=BasicApplication;Integrated Security=True");
+        //}
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new CategoryMap());

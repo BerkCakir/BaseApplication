@@ -1,0 +1,76 @@
+﻿@model IList<BaseApplication.Entities.Concrete.Category>
+
+@if (Model != null)
+{
+    <div class="card mb-4 mt-4">
+        <div class="card-header">
+            <i class="fas fa-table mr-1"></i>
+            Categories
+        </div>
+        <div class="card-body">
+            <a asp-controller="Category" asp-action="Add" class="btn btn-primary mb-3">New Category</a>
+            <div class="table-responsive">
+                <table class="table table-bordered" id="categoriesTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>Is Active?</th>
+                            <th>Is Deleted?</th>
+                            <th>Created Date</th>
+                            <th>Modified Date</th>
+                            <th>Operation</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>Is Active?</th>
+                            <th>Is Deleted?</th>
+                            <th>Created Date</th>
+                            <th>Modified Date</th>
+                            <th>Operation</th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        @foreach (var category in Model)
+                        {
+                            <tr>
+                                <td>@category.Id</td>
+                                <td>@category.Name</td>
+                                <td>@category.Description</td>
+                                <td>@category.IsActive</td>
+                                <td>@category.IsDeleted</td>
+                                <td>@category.CreatedDate.ToShortDateString()</td>
+                                <td>@category.ModifiedDate.ToShortDateString()</td>
+                                <td>
+                                    <a asp-controller="Category" asp-action="Update" asp-route-id="@category.Id" class="ml-4"><i class="fas fa-tools"></i></a>
+                                    <a asp-controller="Category" asp-action="Delete" asp-route-id="@category.Id" class="ml-4" onclick="return confirm('Are you sure you want to delete?');"><i class="fas fa-trash"></i></a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+}
+@if (TempData["errorMessage"] != null)
+{
+    <div class="alert alert-danger mt-3">
+        @TempData["errorMessage"] <br />
+        Return to home <a class="alert-link" asp-controller="Home" asp-action="Index">page</a>
+    </div>
+}
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            $('#categoriesTable').DataTable();
+        });
+    </script>
+}
