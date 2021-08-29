@@ -1,5 +1,5 @@
 # BaseApplication
-A layered MVC application with EntityFramework and can be a starting point for developing simple and similar applications
+A layered MVC application with EntityFramework and could be a starting point for developing simple and similar applications
 
 
 ## What is Inside
